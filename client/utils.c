@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #pragma pack(push,1)
 typedef struct heartbeat_s {
@@ -24,8 +25,8 @@ int parse_request(char *buf,posid poi) {
         }
         hb.salt = salt;
         if (hb.mark != 0xEA) {
-                printf("check mark field failed\n");
                 return 1;
+                //check mark field failed
         }
         //printf("salt = %hhx\n",salt);
         //printf("mark = %hhx\n",hb.mark);

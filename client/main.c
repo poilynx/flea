@@ -5,20 +5,25 @@
 #include <stdint.h>
 
 int main() {
-	request req;
+	char 		buf[100]="hello";
+	request 	req;
+	osid 		oi;
 	
 	if (echosvr_init() != ES_E_SUCCEED)
 		return -1;
 	
 	if(echosvr_listen(&req) != ES_E_SUCCEED)
 		return -1;
-	char buf[100]="hello";
-	//memset(buf,0x7a,sizeof(buf));
-	if(echosvr_reply(&req,buf,sizeof(buf)) != ES_E_SUCCEED)
+
+	if(parse_request(req.data,&oi) != 0) {
+		printf("fail to check verify mark");
 		return -1;
+	}
+
+	//memset(buf,0x7a,sizeof(buf));
+	//if(echosvr_reply(&req,buf,sizeof(buf)) != ES_E_SUCCEED)
+	//	return -1;
 	printf("seq = %hd\n",req.seq);
-	osid oi;
-	parse_request(req.data,&oi);
 
 	printf("iswow64 = %hhd\n"
 		"ver:major = %d\n"
